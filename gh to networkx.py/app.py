@@ -1,7 +1,7 @@
 from flask import Flask
 import ghhops_server as hs
 import rhino3dm as rg
-import network as net
+import graph as g
 
 app = Flask(__name__)
 hops = hs.Hops(app)
@@ -9,12 +9,11 @@ hops = hs.Hops(app)
 
 
 @hops.component(
-    "/createGraph",
-    name = "Create Graph",
+    "/createNetwork",
+    name = "Create Networkx",
     inputs=[
-        hs.HopsInteger("Number", "N", "Number of node", hs.HopsParamAccess.ITEM, default= 100),
-        
-        hs.HopsInteger("Seed", "S", "Seed for randomness", hs.HopsParamAccess.ITEM, default= 10),
+        hs.HopsPoint("Points", "P", "Points for nodes", hs.HopsParamAccess.LIST),
+        hs.HopsCurve("Curves", "C", "Curves for edges", hs.HopsParamAccess.LIST),
 
     ],
     outputs=[
@@ -23,12 +22,13 @@ hops = hs.Hops(app)
 
     ]
 )
-def createGraph(number, seed):
+def createNetworkx(points, curves):
 
-    G = net.randomgraph(number, seed)
+    G = g.createGraph(points, curves)
 
-    nodes = net.getNodes(G)
-    edges = net.getEdges(G) 
+    nodes = g.getNodes(G)
+    edges = g.getEdges(G) 
+    print(len(nodes))
 
     return nodes, edges
 

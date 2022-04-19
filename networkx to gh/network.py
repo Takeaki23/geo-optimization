@@ -6,7 +6,7 @@ import random
 GraphMatcher = nx.isomorphism.vf2userfunc.GraphMatcher
 
 
-def randomgrapgh(number, seed):
+def randomgraph(number, seed):
         
     # Use seed when creating the graph for reproducibility
     G = nx.random_geometric_graph(number, radius=0.2, seed=seed)
